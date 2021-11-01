@@ -17,7 +17,7 @@ static bool get_battery_info(struct battery_info *battery_info,
                              bool print_debugging) {
     bool result = false;
     io_service_t batteryService = IOServiceGetMatchingService(
-        kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"));
+        kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"));
     if (batteryService) {
         CFMutableDictionaryRef properties = NULL;
         if (IORegistryEntryCreateCFProperties(
