@@ -1,4 +1,4 @@
-# battery_stat
+# battery-stat
 
 Reads the battery information of a Mac and prints it as text, JSON, a percentage, or a coloured
 prompt symbol.
@@ -12,7 +12,7 @@ battery-stat percentage [emoji]
 
 ## Installation
 
-Each [release](https://github.com/Tatsh/battery_stat/releases) has a universal binary for macOS
+Each [release](https://github.com/Tatsh/battery-stat/releases) has a universal binary for macOS
 10.13 and later on Intel and macOS 11 and later on Apple silicon:
 
 - `battery-stat-*-macos-universal-Release` is the binary. Rename it to `battery-stat`, make it
