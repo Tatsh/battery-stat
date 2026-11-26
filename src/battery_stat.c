@@ -2,9 +2,8 @@
 #include <IOKit/IOKitLib.h>
 #include <stdint.h>
 
-#define get_int32(x, y)                                                       \
-    (CFNumberGetValue(                                                        \
-        CFDictionaryGetValue(properties, x), kCFNumberSInt32Type, y))
+#define get_int32(x, y)                                                                            \
+    (CFNumberGetValue(CFDictionaryGetValue(properties, x), kCFNumberSInt32Type, y))
 
 struct battery_info {
     int32_t current_capacity;
@@ -13,45 +12,35 @@ struct battery_info {
     bool fully_charged;
 };
 
-static bool get_battery_info(struct battery_info *battery_info,
-                             bool print_debugging) {
+static bool get_battery_info(struct battery_info *battery_info, bool print_debugging) {
     bool result = false;
     /* MACH_PORT_NULL selects the default main port on every version of
      * macOS, whereas kIOMainPortDefault needs macOS 12. */
-    io_service_t batteryService = IOServiceGetMatchingService(
-        MACH_PORT_NULL, IOServiceMatching("AppleSmartBattery"));
+    io_service_t batteryService =
+        IOServiceGetMatchingService(MACH_PORT_NULL, IOServiceMatching("AppleSmartBattery"));
     if (batteryService) {
         CFMutableDictionaryRef properties = NULL;
-        if (IORegistryEntryCreateCFProperties(
-                batteryService, &properties, NULL, 0) == 0 &&
+        if (IORegistryEntryCreateCFProperties(batteryService, &properties, NULL, 0) == 0 &&
             properties != NULL) {
             if (print_debugging) {
                 CFStringRef description = CFCopyDescription(properties);
                 CFDataRef data = CFStringCreateExternalRepresentation(
                     NULL, description, kCFStringEncodingUTF8, 0);
                 CFRelease(description);
-                fprintf(stderr,
-                        "%.*s\n",
-                        (int)CFDataGetLength(data),
-                        CFDataGetBytePtr(data));
+                fprintf(stderr, "%.*s\n", (int)CFDataGetLength(data), CFDataGetBytePtr(data));
                 CFRelease(data);
             }
-            result =
-                true &
-                get_int32(CFSTR("CurrentCapacity"),
-                          &battery_info->current_capacity) &
-                get_int32(CFSTR("MaxCapacity"), &battery_info->max_capacity);
+            result = true & get_int32(CFSTR("CurrentCapacity"), &battery_info->current_capacity) &
+                     get_int32(CFSTR("MaxCapacity"), &battery_info->max_capacity);
             CFBooleanRef external_connected =
-                (CFBooleanRef)CFDictionaryGetValue(properties,
-                                                   CFSTR("ExternalConnected"));
+                (CFBooleanRef)CFDictionaryGetValue(properties, CFSTR("ExternalConnected"));
             if (external_connected) {
-                battery_info->external_connected =
-                    CFBooleanGetValue(external_connected);
+                battery_info->external_connected = CFBooleanGetValue(external_connected);
             } else {
                 result = false;
             }
-            CFBooleanRef fully_charged = (CFBooleanRef)CFDictionaryGetValue(
-                properties, CFSTR("FullyCharged"));
+            CFBooleanRef fully_charged =
+                (CFBooleanRef)CFDictionaryGetValue(properties, CFSTR("FullyCharged"));
             if (fully_charged) {
                 battery_info->fully_charged = CFBooleanGetValue(fully_charged);
             } else {
@@ -73,8 +62,7 @@ int main(int argc, const char *argv[]) {
             if (result.fully_charged) {
                 prefix = suffix = "";
             } else {
-                int32_t percent =
-                    (result.current_capacity * 100) / result.max_capacity;
+                int32_t percent = (result.current_capacity * 100) / result.max_capacity;
                 if (percent >= 70) {
                     prefix = "\x1b[32m";
                 } else if (percent >= 30) {
@@ -84,14 +72,12 @@ int main(int argc, const char *argv[]) {
                 }
                 suffix = "\x1b[00m";
             }
-            printf(
-                result.external_connected ? "%s$%s" : "%s!%s", prefix, suffix);
+            printf(result.external_connected ? "%s$%s" : "%s!%s", prefix, suffix);
         } else if (argc >= 2 && strcmp(argv[1], "percentage") == 0) {
             if (result.fully_charged) {
                 return 0;
             }
-            int32_t percent =
-                (result.current_capacity * 100) / result.max_capacity;
+            int32_t percent = (result.current_capacity * 100) / result.max_capacity;
             const char *suffix;
             if (argc == 3 && strcmp(argv[2], "emoji") == 0) {
                 if (result.fully_charged) {
@@ -103,8 +89,7 @@ int main(int argc, const char *argv[]) {
                 suffix = "";
             }
             printf("%d%%%s", percent, suffix);
-        } else if (argc == 1 ||
-                   (argc == 2 && strcmp(argv[1], "simple") == 0)) {
+        } else if (argc == 1 || (argc == 2 && strcmp(argv[1], "simple") == 0)) {
             printf("current_capacity=%d max_capacity=%d "
                    "external_connected=%d "
                    "fully_charged=%d\n",
