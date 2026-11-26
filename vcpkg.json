@@ -1,0 +1,14 @@
+{
+  "dependencies": [
+
+  ],
+  "description": "Read Apple battery information as JSON, text, or a shell prompt.",
+  "documentation": "https://battery-stat.readthedocs.org",
+  "homepage": "https://tatsh.github.io/battery-stat/",
+  "license": "MIT",
+  "maintainers": [
+    "Andrew Udvare <audvare@gmail.com>"
+  ],
+  "name": "battery-stat",
+  "version": "1.0.0"
+}
