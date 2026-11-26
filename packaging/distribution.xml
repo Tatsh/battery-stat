@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<installer-gui-script minSpecVersion="2">
+  <title>battery-stat</title>
+  <options customize="never" hostArchitectures="arm64,x86_64" require-scripts="false" />
+  <domains enable_anywhere="false" enable_currentUserHome="false" enable_localSystem="true" />
+  <allowed-os-versions>
+    <os-version min="10.13" />
+  </allowed-os-versions>
+  <choices-outline>
+    <line choice="sh.tat.battery-stat" />
+  </choices-outline>
+  <choice id="sh.tat.battery-stat" title="battery-stat">
+    <pkg-ref id="sh.tat.battery-stat" />
+  </choice>
+  <pkg-ref id="sh.tat.battery-stat">battery-stat.pkg</pkg-ref>
+</installer-gui-script>
