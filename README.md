@@ -44,8 +44,6 @@ The binary is signed ad hoc, so a copy downloaded with a web browser is quaranti
 quarantine with `xattr -d com.apple.quarantine battery-stat`, or open the package from its context
 menu in Finder.
 
-With MacPorts, run `sudo port install battery-stat`.
-
 ## Building
 
 Building requires CMake 3.31 or later and a C compiler with C23 support.
