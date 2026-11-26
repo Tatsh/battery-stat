@@ -8,7 +8,7 @@ if(APPLE AND NOT CMAKE_OSX_DEPLOYMENT_TARGET)
 endif()
 project(
   battery-stat
-  VERSION 1.0.0
+  VERSION 0.0.1
   DESCRIPTION "Read Apple battery information as JSON, text, or a shell prompt."
   HOMEPAGE_URL "https://github.com/Tatsh/battery-stat"
   LANGUAGES C)

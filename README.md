@@ -5,7 +5,7 @@
 [![C](https://img.shields.io/badge/C-00599C?logo=c)](<https://en.wikipedia.org/wiki/C_(programming_language)>)
 [![GitHub tag (with filter)](https://img.shields.io/github/v/tag/Tatsh/battery-stat)](https://github.com/Tatsh/battery-stat/tags)
 [![License](https://img.shields.io/github/license/Tatsh/battery-stat)](https://github.com/Tatsh/battery-stat/blob/master/LICENSE.txt)
-[![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/Tatsh/battery-stat/v0.0.0/master)](https://github.com/Tatsh/battery-stat/compare/v0.0.0...master)
+[![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/Tatsh/battery-stat/v0.0.1/master)](https://github.com/Tatsh/battery-stat/compare/v0.0.1...master)
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-blue?logo=dependabot)](https://github.com/dependabot)
 [![pages-build-deployment](https://github.com/Tatsh/battery-stat/actions/workflows/pages/pages-build-deployment/badge.svg)](https://tatsh.github.io/battery-stat/)
 [![Stargazers](https://img.shields.io/github/stars/Tatsh/battery-stat?logo=github&style=flat)](https://github.com/Tatsh/battery-stat/stargazers)
