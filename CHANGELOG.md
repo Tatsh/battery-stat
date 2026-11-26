@@ -9,6 +9,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
 
+### Fixed
+
+- Usage message for unrecognized arguments shows the name the program was invoked with instead of
+  the hard-coded `battery_stat` (the installed command is `battery-stat`), and opens with
+  `Run <name> in one of the following forms:` instead of `usage:`.
+
 ## [0.0.1] - 2026-00-00
 
 First version.

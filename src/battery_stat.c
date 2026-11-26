@@ -106,10 +106,20 @@ int main(int argc, const char *argv[]) {
                    result.external_connected ? "true" : "false",
                    result.fully_charged ? "true" : "false");
         } else {
+            const char *name = argv[0];
             fprintf(stderr,
-                    "usage:\n\tbattery_stat\n\tbattery_stat "
-                    "simple\n\tbattery_stat json\n\tbattery_stat "
-                    "prompt\n\tbattery_stat percentage [emoji]\n");
+                    "Run %s in one of the following forms:\n"
+                    "\t%s\n"
+                    "\t%s simple\n"
+                    "\t%s json\n"
+                    "\t%s prompt\n"
+                    "\t%s percentage [emoji]\n",
+                    name,
+                    name,
+                    name,
+                    name,
+                    name,
+                    name);
             return 1;
         }
         return 0;
