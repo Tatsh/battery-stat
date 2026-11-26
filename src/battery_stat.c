@@ -113,8 +113,7 @@ int main(int argc, const char *argv[]) {
             return 1;
         }
         return 0;
-    } else {
-        fprintf(stderr, "failed to retrieve battery info\n");
-        return 1;
     }
+    fprintf(stderr, "failed to retrieve battery info\n");
+    return 1;
 }
