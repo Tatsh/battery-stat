@@ -48,8 +48,12 @@ With MacPorts, run `sudo port install battery-stat`.
 
 ## Building
 
+Building requires CMake 3.31 or later and a C compiler with C23 support.
+
 ```shell
-make
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+cmake --install build --prefix /usr/local
 ```
 
-For a universal binary, run `make TARGET_ARCH='-arch arm64 -arch x86_64'`.
+For a universal binary, add `'-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64'` when configuring.

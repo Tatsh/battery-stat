@@ -7,6 +7,7 @@
   keywords: ['battery', 'cli', 'iokit', 'macos', 'prompt'],
   license: 'MIT',
   security_policy_supported_versions: { '0.0.x': ':white_check_mark:' },
+  clang_format_args: 'src/*.c',
   want_tests: false,
   want_winget: false,
 }

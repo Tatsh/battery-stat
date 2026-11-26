@@ -16,31 +16,31 @@ jobs:
       - uses: 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
         with:
           persist-credentials: false
-      # The x86_64 slice runs on macOS 10.13 and later. Apple silicon starts at macOS 11. The linker
-      # signs only the arm64 slice, so both are signed ad hoc again.
-      - env:
-          MACOSX_DEPLOYMENT_TARGET: '10.13'
-        name: 'Compile'
+      # The linker signs only the arm64 slice, so both are signed ad hoc again.
+      - name: 'Configure and compile'
         run: |
-          make TARGET_ARCH='-arch arm64 -arch x86_64'
-          codesign --force --sign - battery_stat
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64'
+          cmake --build build
+          codesign --force --sign - build/src/battery-stat
+      - name: 'Install'
+        run: 'DESTDIR="$PWD/pkg-root" cmake --install build --prefix /usr/local'
       # The runner has no battery, so the only error allowed is the one for a missing battery.
       - name: 'Verify the binary'
         run: |
-          [[ "$(lipo -archs battery_stat)" =~ ^(x86_64 arm64|arm64 x86_64)$ ]]
-          codesign --verify battery_stat
+          binary=pkg-root/usr/local/bin/battery-stat
+          [[ "$(lipo -archs "$binary")" =~ ^(x86_64 arm64|arm64 x86_64)$ ]]
+          codesign --verify "$binary"
           for architecture in arm64 x86_64; do
-            if ! arch "-$architecture" ./battery_stat json 2> stderr.txt; then
+            if ! arch "-$architecture" "$binary" json 2> stderr.txt; then
               grep -Fqx 'failed to retrieve battery info' stderr.txt
             fi
           done
       - name: 'Package'
         run: |
-          mkdir -p pkg-root/usr/local/bin pkg-build
-          install -m 755 battery_stat pkg-root/usr/local/bin/battery-stat
+          mkdir pkg-build
           # Extended attributes would add AppleDouble files to the package.
           xattr -cr pkg-root
-          install -m 755 battery_stat "$PACKAGE"
+          install -m 755 pkg-root/usr/local/bin/battery-stat "$PACKAGE"
           version="${VERSION#v}"
           [[ "$version" =~ ^[0-9]+(\.[0-9]+)*$ ]] || version=0
           pkgbuild --root pkg-root --identifier sh.tat.battery-stat --version "$version" \
