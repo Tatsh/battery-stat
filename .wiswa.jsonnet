@@ -8,6 +8,8 @@
   license: 'MIT',
   security_policy_supported_versions: { '0.0.x': ':white_check_mark:' },
   clang_format_args: 'src/*.c',
+  // .github/workflows/codeql.yml is maintained by hand to build on macOS.
+  want_codeql: false,
   want_tests: false,
   want_winget: false,
 }

@@ -2,8 +2,8 @@ concurrency:
   cancel-in-progress: true
   group: '${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}'
 jobs:
-  analyze:
-    name: 'Analyze'
+  actions:
+    name: 'Actions'
     permissions:
       actions: 'read'
       contents: 'read'
@@ -18,31 +18,46 @@ jobs:
         uses: 'github/codeql-action/init@915412ff23e8b7659517e607487dbeae018f2934'
         with:
           build-mode: 'none'
-          languages: '${{ matrix.language }}'
+          languages: 'actions'
       - name: 'Perform CodeQL Analysis'
         uses: 'github/codeql-action/analyze@915412ff23e8b7659517e607487dbeae018f2934'
         with:
-          category: '/language:${{matrix.language}}'
-    strategy:
-      fail-fast: false
-      matrix:
-        language:
-          - 'c-cpp'
-          - 'actions'
+          category: '/language:actions'
+  # The code uses CoreFoundation and IOKit, so it is analysed from a build against the macOS SDK.
+  macos:
+    name: 'C (macOS)'
+    permissions:
+      actions: 'read'
+      contents: 'read'
+      security-events: 'write'
+    runs-on: 'macos-latest'
+    steps:
+      - name: 'Checkout repository'
+        uses: 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
+        with:
+          persist-credentials: false
+      - name: 'Initialize CodeQL'
+        uses: 'github/codeql-action/init@915412ff23e8b7659517e607487dbeae018f2934'
+        with:
+          build-mode: 'manual'
+          languages: 'c-cpp'
+      - name: 'Build'
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+          cmake --build build
+      - name: 'Perform CodeQL Analysis'
+        uses: 'github/codeql-action/analyze@915412ff23e8b7659517e607487dbeae018f2934'
+        with:
+          category: '/language:c-cpp/os:macos'
 name: 'CodeQL'
 'on':
   pull_request:
     branches:
       - 'master'
     paths:
-      - '**/*.cpp'
-      - '**/*.cxx'
-      - '**/*.hpp'
-      - '**/*.hh'
-      - '**/*.hxx'
       - '**/*.c'
-      - '**/*.cc'
       - '**/*.h'
+      - '**/CMakeLists.txt'
       - '.github/workflows/*.yml'
       - '.github/workflows/*.yaml'
       - '**/action.yml'
@@ -51,14 +66,9 @@ name: 'CodeQL'
     branches:
       - 'master'
     paths:
-      - '**/*.cpp'
-      - '**/*.cxx'
-      - '**/*.hpp'
-      - '**/*.hh'
-      - '**/*.hxx'
       - '**/*.c'
-      - '**/*.cc'
       - '**/*.h'
+      - '**/CMakeLists.txt'
       - '.github/workflows/*.yml'
       - '.github/workflows/*.yaml'
       - '**/action.yml'
