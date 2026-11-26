@@ -1,7 +1,7 @@
 {
   "_wiswa": {
     "commandLine": "wiswa",
-    "lastRun": "2026-11-26T04:35:27Z",
+    "lastRun": "2026-11-26T04:53:30Z",
     "version": "d3b4644"
   },
   "contributors": ["Andrew Udvare <audvare@gmail.com>"],
@@ -122,5 +122,5 @@
     "format": "clang-format -i src/*.c && prettier --write . && markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2 --fix",
     "qa": "yarn check-spelling && yarn check-formatting"
   },
-  "version": "1.0.0"
+  "version": "0.0.0"
 }
