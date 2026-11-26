@@ -15,8 +15,8 @@ battery-stat percentage [emoji]
 Each [release](https://github.com/Tatsh/battery_stat/releases) has a universal binary for macOS
 10.13 and later on Intel and macOS 11 and later on Apple silicon:
 
-- `battery-stat-*-macos-universal-Release.tar.gz` holds the `battery-stat` binary. Put it anywhere
-  in `PATH`.
+- `battery-stat-*-macos-universal-Release` is the binary. Rename it to `battery-stat`, make it
+  executable with `chmod +x battery-stat`, and put it anywhere in `PATH`.
 - `battery-stat-*-macos-universal-Release.pkg` installs it in `/usr/local/bin`.
 
 The binary is signed ad hoc, so a copy downloaded with a web browser is quarantined. Remove the

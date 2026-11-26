@@ -58,7 +58,7 @@ jobs:
           fi
           required=(
             "battery-stat-${TAG}-macos-universal-Release.pkg"
-            "battery-stat-${TAG}-macos-universal-Release.tar.gz"
+            "battery-stat-${TAG}-macos-universal-Release"
           )
           mapfile -t attached < <(gh release view "$TAG" --json assets --jq '.assets[].name')
           echo "${TAG} has ${#attached[@]} packages attached."
