@@ -16,8 +16,10 @@ struct battery_info {
 static bool get_battery_info(struct battery_info *battery_info,
                              bool print_debugging) {
     bool result = false;
+    /* MACH_PORT_NULL selects the default main port on every version of
+     * macOS, whereas kIOMainPortDefault needs macOS 12. */
     io_service_t batteryService = IOServiceGetMatchingService(
-        kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"));
+        MACH_PORT_NULL, IOServiceMatching("AppleSmartBattery"));
     if (batteryService) {
         CFMutableDictionaryRef properties = NULL;
         if (IORegistryEntryCreateCFProperties(
